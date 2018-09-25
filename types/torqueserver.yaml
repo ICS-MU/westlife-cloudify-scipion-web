@@ -1,0 +1,19 @@
+node_types:
+  gromacs.nodes.TorqueServer:
+    derived_from: gromacs.nodes.puppet.SoftwareComponent
+
+  gromacs.nodes.MonitoredTorqueServer:
+    derived_from: gromacs.nodes.puppet.SoftwareComponent
+    interfaces:
+      cloudify.interfaces.monitoring:
+        start:
+          implementation: diamond.diamond_agent.tasks.add_collectors
+          inputs:
+            collectors_config: &torqueserver_collectors
+              default:
+                TorqueCollector:
+                  path: collectors/torque.py
+        stop:
+          implementation: diamond.diamond_agent.tasks.del_collectors
+          inputs:
+            collectors_config: *torqueserver_collectors

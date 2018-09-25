@@ -1,0 +1,202 @@
+node_types:
+  gromacs.nodes.puppet.Server:
+    derived_from: cloudify.occi.nodes.Server
+    properties:
+      fabric_env:
+        default: {}
+
+  gromacs.nodes.puppet.HostPoolServer:
+    derived_from: cloudify.hostpool.nodes.LinuxHost
+    properties:
+      fabric_env:
+        default: {}
+      hostpool_service_url:
+        default: ''
+    interfaces:
+      cloudify.interfaces.worker_installer:
+        install:
+          implementation: agent.worker_installer.tasks.install
+        start:
+          implementation: agent.worker_installer.tasks.start
+        stop:
+          implementation: agent.worker_installer.tasks.stop
+        uninstall:
+          implementation: agent.worker_installer.tasks.uninstall
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: hostpool.cloudify_hostpool_plugin.tasks.acquire
+          inputs:
+            service_url:
+              default: { get_property: [ SELF, hostpool_service_url ] }
+        delete:
+          implementation: hostpool.cloudify_hostpool_plugin.tasks.release
+          inputs:
+            service_url:
+              default: { get_property: [ SELF, hostpool_service_url ] }
+
+  gromacs.nodes.puppet.SoftwareComponent:
+    derived_from: cloudify.nodes.SoftwareComponent
+    properties:
+      fabric_env:
+        default: {}
+      puppet_config:
+        default: {}
+    interfaces:
+      cloudify.interfaces.lifecycle:
+        create:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            fabric_env:
+              default: { get_property: [ SELF, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SELF, puppet_config ] }
+        configure:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            fabric_env:
+              default: { get_property: [ SELF, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SELF, puppet_config ] }
+        start:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            fabric_env:
+              default: { get_property: [ SELF, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SELF, puppet_config ] }
+        stop:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            fabric_env:
+              default: { get_property: [ SELF, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SELF, puppet_config ] }
+        delete:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            fabric_env:
+              default: { get_property: [ SELF, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SELF, puppet_config ] }
+
+relationships:
+  gromacs.relationships.puppet.connected_to:
+    derived_from: cloudify.relationships.connected_to
+    source_interfaces:
+      cloudify.interfaces.relationship_lifecycle:
+        preconfigure:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'source'
+            fabric_env:
+              default: { get_property: [ SOURCE, fabric_env ] }
+            puppet_config: # just to ensure source/target knows how to bootstrap puppet
+              default: { get_property: [ SOURCE, puppet_config ] }
+            manifest:
+              default: ''
+        postconfigure:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'source'
+            fabric_env:
+              default: { get_property: [ SOURCE, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SOURCE, puppet_config ] }
+            manifest:
+              default: ''
+        establish:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'source'
+            fabric_env:
+              default: { get_property: [ SOURCE, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SOURCE, puppet_config ] }
+            manifest:
+              default: ''
+        unlink:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'source'
+            fabric_env:
+              default: { get_property: [ SOURCE, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ SOURCE, puppet_config ] }
+            manifest:
+              default: ''
+    target_interfaces:
+      cloudify.interfaces.relationship_lifecycle:
+        preconfigure:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'target'
+            fabric_env:
+              default: { get_property: [ TARGET, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ TARGET, puppet_config ] }
+            manifest:
+              default: ''
+        postconfigure:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'target'
+            fabric_env:
+              default: { get_property: [ TARGET, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ TARGET, puppet_config ] }
+            manifest:
+              default: ''
+        establish:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'target'
+            fabric_env:
+              default: { get_property: [ TARGET, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ TARGET, puppet_config ] }
+            manifest:
+              default: ''
+        unlink:
+          implementation: fabric.fabric_plugin.tasks.run_script
+          inputs:
+            script_path: 
+              default: scripts/puppet/runner.sh
+            relationship_side:
+              default: 'target'
+            fabric_env:
+              default: { get_property: [ TARGET, fabric_env ] }
+            puppet_config:
+              default: { get_property: [ TARGET, puppet_config ] }
+            manifest:
+              default: ''

@@ -1,0 +1,68 @@
+node_types:
+  gromacs.nodes.Server:
+    derived_from: gromacs.nodes.puppet.Server
+    properties:
+      install_agent:
+        default: False
+
+  gromacs.nodes.HostPoolServer:
+    derived_from: gromacs.nodes.puppet.HostPoolServer
+    properties:
+      install_agent:
+        default: False
+
+  gromacs.nodes.MonitoredServer:
+    derived_from: gromacs.nodes.puppet.Server
+    interfaces:
+      cloudify.interfaces.monitoring_agent:
+        install:
+          implementation: diamond.diamond_agent.tasks.install
+          inputs:
+            diamond_config:
+              default:
+                interval: 14
+        start: diamond.diamond_agent.tasks.start
+        stop: diamond.diamond_agent.tasks.stop
+        uninstall: diamond.diamond_agent.tasks.uninstall
+      cloudify.interfaces.monitoring:
+        start:
+          implementation: diamond.diamond_agent.tasks.add_collectors
+          inputs:
+            collectors_config: &server_collectors
+              default:
+                CPUCollector: {}
+                LoadAverageCollector: {}
+                MemoryCollector: {}
+                NetworkCollector: {}
+        stop:
+          implementation: diamond.diamond_agent.tasks.del_collectors
+          inputs:
+            collectors_config: *server_collectors
+
+  gromacs.nodes.MonitoredHostPoolServer:
+    derived_from: gromacs.nodes.puppet.HostPoolServer
+    interfaces:
+      cloudify.interfaces.monitoring_agent:
+        install:
+          implementation: diamond.diamond_agent.tasks.install
+          inputs:
+            diamond_config:
+              default:
+                interval: 14
+        start: diamond.diamond_agent.tasks.start
+        stop: diamond.diamond_agent.tasks.stop
+        uninstall: diamond.diamond_agent.tasks.uninstall
+      cloudify.interfaces.monitoring:
+        start:
+          implementation: diamond.diamond_agent.tasks.add_collectors
+          inputs:
+            collectors_config: &hostpoolserver_collectors
+              default:
+                CPUCollector: {}
+                LoadAverageCollector: {}
+                MemoryCollector: {}
+                NetworkCollector: {}
+        stop:
+          implementation: diamond.diamond_agent.tasks.del_collectors
+          inputs:
+            collectors_config: *hostpoolserver_collectors

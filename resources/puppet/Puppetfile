@@ -1,0 +1,23 @@
+forge "https://forge.puppetlabs.com"
+
+mod "puppetlabs/stdlib",    "4.25.0"
+mod "puppetlabs/concat",    "4.2.1"
+mod "puppetlabs/apache",    "3.1.0"
+mod "puppetlabs/firewall",  "1.12.0"
+mod "puppetlabs/apt",       "4.5.1"
+mod "puppetlabs/git",       "0.5.0"
+mod "puppetlabs/vcsrepo",   "2.3.0"
+mod "puppetlabs/inifile",   "2.2.0"
+mod 'puppetlabs/reboot',    "2.0.0"
+mod "puppet/archive",       "2.3.0"
+#mod "puppet/yum",           "2.2.0"
+#mod 'stahnma/epel',         '1.3.0'
+mod 'puppet/letsencrypt',   '2.4.0'
+mod 'csanchez/ddclient',    '1.0.0'
+mod "thias/postfix",        '0.3.4'
+mod "camptocamp/systemd",   '1.1.1'
+mod "camptocamp/kmod",       "2.1.0"
+#mod "maestrodev-wget",      "1.7.3"
+mod 'derdanne/nfs',         '2.0.4'
+mod "puppetlabs/java",      "2.1.0"
+mod "puppet/python",        "2.1.1"
