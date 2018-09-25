@@ -5,6 +5,7 @@ python:
   - 2.7
 
 install:
+    - touch service.key service.cert service.xml robotkey.pem robotcert.crt
     - make bootstrap-cfy
 
 script:
