@@ -1,0 +1,16 @@
+language: python
+sudo: false
+
+python:
+  - 2.7
+
+install:
+    - make bootstrap-cfy
+
+script:
+    - make test
+
+notifications:
+  email:
+    - holer@ics.muni.cz
+    - ljocha@ics.muni.cz
