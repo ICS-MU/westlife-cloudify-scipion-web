@@ -68,6 +68,11 @@ cc_private_key: |
 esyscmd(`/bin/bash -c 'SQ`set -o pipefail; cat resources/ssh_cfy/id_rsa | sed -e "s/^/  /"'SQ)
 ifelse(sysval, `0', `', `m4exit(`1')')dnl
 
+# custom cloud-init configuration
+cc_data:
+  packages:
+    - python
+
 ############################################
 # Main node (portal, batch server) deployment parameters
 

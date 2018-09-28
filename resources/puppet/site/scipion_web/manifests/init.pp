@@ -20,6 +20,7 @@ class scipion_web (
   $occi_vomses           = $scipion_web::params::occi_vomses,
   $occi_robot_key_b64    = $scipion_web::params::occi_robot_key_b64,
   $occi_robot_cert_b64   = $scipion_web::params::occi_robot_cert_b64,
+  $cfy_voms_proxy_file   = $scipion_web::params::cfy_voms_proxy_file,
   $cfy_wrapper_dir       = $scipion_web::params::cfy_wrapper_dir,
   $cfy_template_dir      = $scipion_web::params::cfy_template_dir,
   $cfy_deployments_dir   = $scipion_web::params::cfy_deployments_dir,

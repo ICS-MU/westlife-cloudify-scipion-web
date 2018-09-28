@@ -8,6 +8,7 @@ class scipion_web::params {
   $node_cfy_provider = 'git'
   $node_cfy_revision = 'master'
 
+  $cfy_voms_proxy_file = '/tmp/x509up_u1000'
   $cfy_wrapper_dir = '/opt/cfy-wrapper'
   $cfy_template_dir = '<%= $scipion_web::cfy_wrapper_dir %>/template'
   $cfy_deployments_dir = '<%= $scipion_web::cfy_wrapper_dir %>/deployments'
@@ -46,6 +47,9 @@ class scipion_web::params {
   $ssl_email = 'root@localhost'
   $server_url = undef  #depends on $ssl_enabled
 
+  $occi_robot_key_b64 = undef
+  $occi_robot_cert_b64 = undef
+
   $occi_vomses = {
     'enmr.eu.voms2.cnaf.infn.it' => '"enmr.eu" "voms2.cnaf.infn.it" "15014" "/C=IT/O=INFN/OU=Host/L=CNAF/CN=voms2.cnaf.infn.it" "enmr.eu"',
     'gputest.metacentrum.cz.voms1.grid.cesnet.cz' => '"gputest.metacentrum.cz" "voms1.grid.cesnet.cz" "15035" "/DC=org/DC=terena/DC=tcs/C=CZ/ST=Hlavni mesto Praha/L=Praha 6/O=CESNET/CN=voms2.grid.cesnet.cz" "gputest.metacentrum.cz" "24"',
@@ -73,7 +77,4 @@ class scipion_web::params {
   $dyndns_login = undef
   $dyndns_password = undef
   $dyndns_ssl = 'yes'
-
-  $occi_robot_key_b64 = undef
-  $occi_robot_cert_b64 = undef
 }

@@ -113,6 +113,18 @@ class scipion_web::cfy {
   }
 
   if ($scipion_web::ensure == 'present') {
+    $_cmd_renew = "${_cfy_scripts_dir}/renew_proxy.sh >>${_cfy_log_dir}/renew.log 2>&1"
+
+    # generate/refresh VOMS proxy if valid for <=5 hours
+    exec { "cfy-renew_proxy.sh":
+      command => $_cmd_renew,
+      unless  => "voms-proxy-info -file ${scipion_web::cfy_voms_proxy_file} -exists -valid 5:00",
+      user    => $scipion_web::user::user_name,
+      group   => $scipion_web::user::group_name,
+      path    => '/bin:/sbin:/usr/bin:/usr/sbin',
+      before  => File[$scipion_web::cfy_voms_proxy_file],
+    }
+
     Cron {
       require => File["${scipion_web::cfy_wrapper_dir}/scipion-cloudify.db"],
     }
@@ -120,6 +132,10 @@ class scipion_web::cfy {
     Cron {
       before => File[$_dirs],
     }
+  }
+
+  file { $scipion_web::cfy_voms_proxy_file:
+    ensure => $_ensure_file,
   }
 
   cron { 'Scipion web deploy job':
@@ -133,7 +149,7 @@ class scipion_web::cfy {
   }
 
   cron { 'Scipion web renew proxy job':
-    command => "${_cfy_scripts_dir}/renew_proxy.sh >>${_cfy_log_dir}/renew.log 2>&1",
+    command => $_cmd_renew,
     hour    => [1, 5, 9, 13, 17, 21],
     minute  => 1,
   }

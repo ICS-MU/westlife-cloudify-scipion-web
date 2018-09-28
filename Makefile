@@ -123,7 +123,7 @@ cfm-plugins:
 		cfy plugin upload -y https://github.com/cloudify-cosmo/cloudify-host-pool-plugin/releases/download/1.5/plugin.yaml \
 			https://github.com/cloudify-cosmo/cloudify-host-pool-plugin/releases/download/1.5/cloudify_host_pool_plugin-1.5-py27-none-linux_x86_64-centos-Core.wgn
 
-cfm-$(BASE_BLUEPRINT).tar.bz2: cfm-$(BLUEPRINT) cfm-$(INPUTS) collectors/ scripts/ types/ resources/puppet.tar.gz
+cfm-$(BASE_BLUEPRINT).tar.bz2: cfm-$(BLUEPRINT) cfm-$(INPUTS) scripts/ types/ resources/puppet.tar.gz
 	BZIP2='-9' tar --transform 's,^,blueprint/,' -cjvf $@ $^
 
 cfm-init: cfm-$(BASE_BLUEPRINT).tar.bz2 cfm-plugins
