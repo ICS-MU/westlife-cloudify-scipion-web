@@ -30,7 +30,9 @@ class scipion_web (
   $cfy_jinja_scripts     = $scipion_web::params::cfy_jinja_scripts,
   $node_cfy_source       = $scipion_web::params::node_cfy_source,
   $node_cfy_provider     = $scipion_web::params::node_cfy_provider,
-  $node_cfy_revision     = $scipion_web::params::node_cfy_revision
+  $node_cfy_revision     = $scipion_web::params::node_cfy_revision,
+  $portal_app_secret     = $scipion_web::params::portal_app_secret,
+  $portal_jwt_secret     = $scipion_web::params::portal_jwt_secret
 ) inherits scipion_web::params {
 
   $_proto = $ssl_enabled ? {

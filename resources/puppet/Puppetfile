@@ -21,3 +21,4 @@ mod "camptocamp/kmod",       "2.1.0"
 mod 'derdanne/nfs',         '2.0.4'
 mod "puppetlabs/java",      "2.1.0"
 mod "puppet/python",        "2.1.1"
+mod "puppet/extlib",        "3.0.0"

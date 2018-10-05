@@ -66,7 +66,7 @@ class scipion_web::params {
     }
   }
 
-  $auth_enabled = false
+  $auth_enabled = true
   $auth_service_key_b64 = undef
   $auth_service_cert_b64 = undef
   $auth_service_meta_b64 = undef
@@ -77,4 +77,7 @@ class scipion_web::params {
   $dyndns_login = undef
   $dyndns_password = undef
   $dyndns_ssl = 'yes'
+
+  $portal_app_secret = extlib::random_password(64)
+  $portal_jwt_secret = extlib::random_password(64)
 }

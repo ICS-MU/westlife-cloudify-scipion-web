@@ -115,8 +115,6 @@ inputs:
     type: string
   scipion_web_dyndns_ssl:
     type: string
-  scipion_web_auth_enabled:
-    type: boolean
   scipion_web_auth_service_key_b64:
     type: string
   scipion_web_auth_service_cert_b64:
@@ -212,7 +210,6 @@ ifelse(_PROVISIONER_,`hostpool',`
           westlife::volume::mode: "1777"
           scipion_web::ssl_enabled: { get_input: scipion_web_ssl_enabled }
           scipion_web::ssl_email: { get_input: scipion_web_ssl_email }
-          scipion_web::auth_enabled: { get_input: scipion_web_auth_enabled }
           scipion_web::auth_service_key_b64: { get_input: scipion_web_auth_service_key_b64 }
           scipion_web::auth_service_cert_b64: { get_input: scipion_web_auth_service_cert_b64 }
           scipion_web::auth_service_meta_b64: { get_input: scipion_web_auth_service_meta_b64 }
@@ -267,7 +264,6 @@ ifelse(_PROVISIONER_,`hostpool',`
           westlife::volume::mode: "1777"
           scipion_web::ssl_enabled: { get_input: scipion_web_ssl_enabled }
           scipion_web::ssl_email: { get_input: scipion_web_ssl_email }
-          scipion_web::auth_enabled: { get_input: scipion_web_auth_enabled }
           scipion_web::auth_service_key_b64: { get_input: scipion_web_auth_service_key_b64 }
           scipion_web::auth_service_cert_b64: { get_input: scipion_web_auth_service_cert_b64 }
           scipion_web::auth_service_meta_b64: { get_input: scipion_web_auth_service_meta_b64 }

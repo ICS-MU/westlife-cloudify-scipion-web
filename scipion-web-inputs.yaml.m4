@@ -123,7 +123,6 @@ scipion_web_dyndns_password: ''
 scipion_web_dyndns_ssl: "yes"            # "yes" or "no"
 
 # user SAML authentication via mod_auth_mellon
-scipion_web_auth_enabled: True   # if True, SSL needs to be enabled
 scipion_web_auth_service_key_b64:  'esyscmd(base64 -w0 service.key)'
 scipion_web_auth_service_cert_b64: 'esyscmd(base64 -w0 service.cert)'
 scipion_web_auth_service_meta_b64: 'esyscmd(base64 -w0 service.xml)'

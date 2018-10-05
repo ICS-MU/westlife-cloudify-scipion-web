@@ -35,6 +35,21 @@ class scipion_web::portal {
       require => Archive[$_portal_arch],
     }
 
+    # Configure secrets
+    exec { 'set-secret-scipion-cloudify-web.wsgi':
+      command => "sed -i -e 's/your-application-secret-key/${scipion_web::portal_app_secret}/' ${scipion_web::code_dir}/app/scipion-cloudify-web.wsgi",
+      onlyif  => "grep -q 'your-application-secret-key' ${scipion_web::code_dir}/app/scipion-cloudify-web.wsgi",
+      path    => '/bin:/usr/bin:/sbin:/usr/sbin',
+      require => Archive[$_portal_arch],
+    }
+
+    exec { 'set-secret-app_entry.py':
+      command => "sed -i -e 's/super_secret_scipion_cloudify_web_jwt_key/${scipion_web::portal_jwt_secret}/' ${scipion_web::code_dir}/app/app_entry.py",
+      onlyif  => "grep -q 'super_secret_scipion_cloudify_web_jwt_key' ${scipion_web::code_dir}/app/app_entry.py",
+      path    => '/bin:/usr/bin:/sbin:/usr/sbin',
+      require => Archive[$_portal_arch],
+    }
+
     # Python
     class { 'python':
       ensure      => present,
