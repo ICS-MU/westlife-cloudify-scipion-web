@@ -130,6 +130,29 @@ inputs:
   scipion_web_node_cfy_revision:
     type: string
 
+  scipion_web_cfy_standalone:
+    type: boolean
+  scipion_web_cfy_provisioner:
+    type: string
+  scipion_web_cfy_cfm_server:
+    type: string
+  scipion_web_cfy_cfm_user:
+    type: string
+  scipion_web_cfy_cfm_password:
+    type: string
+  scipion_web_cfy_cfm_tenant:
+    type: string
+  scipion_web_cfy_cfm_port:
+    type: integer
+  scipion_web_cfy_cfm_ssl:
+    type: boolean
+  scipion_web_cfy_cfm_cert_b64:
+    type: string
+  scipion_web_cfy_hostpool_username:
+    type: string
+  scipion_web_cfy_hostpool_private_key_b64:
+    type: string
+
 dsl_definitions:
   occi_configuration: &occi_configuration
     endpoint: { get_input: occi_endpoint }
@@ -223,6 +246,17 @@ ifelse(_PROVISIONER_,`hostpool',`
           scipion_web::occi_robot_cert_b64: { get_input: scipion_web_occi_robot_cert_b64 }
           scipion_web::node_cfy_source: { get_input: scipion_web_node_cfy_source }
           scipion_web::node_cfy_revision: { get_input: scipion_web_node_cfy_revision }
+          scipion_web::cfy_standalone: { get_input: scipion_web_cfy_standalone }
+          scipion_web::cfy_provisioner: { get_input: scipion_web_cfy_provisioner }
+          scipion_web::cfy_cfm_server: { get_input: scipion_web_cfy_cfm_server }
+          scipion_web::cfy_cfm_user: { get_input: scipion_web_cfy_cfm_user }
+          scipion_web::cfy_cfm_password: { get_input: scipion_web_cfy_cfm_password }
+          scipion_web::cfy_cfm_tenant: { get_input: scipion_web_cfy_cfm_tenant }
+          scipion_web::cfy_cfm_port: { get_input: scipion_web_cfy_cfm_port }
+          scipion_web::cfy_cfm_ssl: { get_input: scipion_web_cfy_cfm_ssl }
+          scipion_web::cfy_cfm_cert_b64: { get_input: scipion_web_cfy_cfm_cert_b64 }
+          scipion_web::cfy_hostpool_username: { get_input: scipion_web_cfy_hostpool_username }
+          scipion_web::cfy_hostpool_private_key_b64: { get_input: scipion_web_cfy_hostpool_private_key_b64 }
     relationships:
       - type: cloudify.relationships.contained_in
         target: olinNodeHostPool
@@ -277,6 +311,17 @@ ifelse(_PROVISIONER_,`hostpool',`
           scipion_web::occi_robot_cert_b64: { get_input: scipion_web_occi_robot_cert_b64 }
           scipion_web::node_cfy_source: { get_input: scipion_web_node_cfy_source }
           scipion_web::node_cfy_revision: { get_input: scipion_web_node_cfy_revision }
+          scipion_web::cfy_standalone: { get_input: scipion_web_cfy_standalone }
+          scipion_web::cfy_provisioner: { get_input: scipion_web_cfy_provisioner }
+          scipion_web::cfy_cfm_server: { get_input: scipion_web_cfy_cfm_server }
+          scipion_web::cfy_cfm_user: { get_input: scipion_web_cfy_cfm_user }
+          scipion_web::cfy_cfm_password: { get_input: scipion_web_cfy_cfm_password }
+          scipion_web::cfy_cfm_tenant: { get_input: scipion_web_cfy_cfm_tenant }
+          scipion_web::cfy_cfm_port: { get_input: scipion_web_cfy_cfm_port }
+          scipion_web::cfy_cfm_ssl: { get_input: scipion_web_cfy_cfm_ssl }
+          scipion_web::cfy_cfm_cert_b64: { get_input: scipion_web_cfy_cfm_cert_b64 }
+          scipion_web::cfy_hostpool_username: { get_input: scipion_web_cfy_hostpool_username }
+          scipion_web::cfy_hostpool_private_key_b64: { get_input: scipion_web_cfy_hostpool_private_key_b64 }
     relationships:
       - type: cloudify.relationships.contained_in
         target: olinNode

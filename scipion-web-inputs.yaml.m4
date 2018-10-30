@@ -2,6 +2,7 @@
 
 define(SQ,')
 
+ifdef(`_PROVISIONER_',`',`
 ############################################
 # Provisioner
 #
@@ -10,6 +11,7 @@ define(SQ,')
 
 define(_PROVISIONER_, occi)dnl
 # define(_PROVISIONER_, hostpool)dnl
+')
 
 
 ############################################
@@ -113,6 +115,19 @@ scipion_web_ssl_email: 'root@localhost'
 # node deployment blueprints git URL and revision
 scipion_web_node_cfy_source: NULL
 scipion_web_node_cfy_revision: NULL
+
+# Cloudify deployment options for Scipion nodes
+scipion_web_cfy_standalone: True
+scipion_web_cfy_provisioner: NULL
+scipion_web_cfy_cfm_server: NULL
+scipion_web_cfy_cfm_user: NULL
+scipion_web_cfy_cfm_password: NULL
+scipion_web_cfy_cfm_tenant: NULL
+scipion_web_cfy_cfm_port: NULL
+scipion_web_cfy_cfm_ssl: False
+scipion_web_cfy_cfm_cert_b64: NULL
+scipion_web_cfy_hostpool_username: 'root'
+scipion_web_cfy_hostpool_private_key_b64: 'esyscmd(base64 -w0 resources/ssh_hostpool_scipion/id_rsa)'
 
 # DynDNS: connection parameters for frontend registration via dyndns API
 scipion_web_dyndns_enabled: False

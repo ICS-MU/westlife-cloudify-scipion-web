@@ -22,14 +22,29 @@ class scipion_web::params {
     'undeploy_scipion.py',
     'init_templates.py',
     'init_example_data.py',
-    'occi_list_ext.py'
+    'occi_list_ext.py',
+    'renew_proxy.sh',
+    'deploy_scipion.sh',
+    'undeploy_scipion.sh',
   ]
 
   $cfy_jinja_scripts = {
-    'renew_proxy.j2'      => 'renew_proxy.sh',
-    'deploy_scipion.j2'   => 'deploy_scipion.sh',
-    'undeploy_scipion.j2' => 'undeploy_scipion.sh',
+#    'renew_proxy.j2'      => 'renew_proxy.sh',
+#    'deploy_scipion.j2'   => 'deploy_scipion.sh',
+#    'undeploy_scipion.j2' => 'undeploy_scipion.sh',
   }
+
+  $cfy_standalone = true
+  $cfy_provisioner = undef
+  $cfy_cfm_server = 'localhost'
+  $cfy_cfm_user = 'unknown'
+  $cfy_cfm_password = 'unknown'
+  $cfy_cfm_tenant = 'default_tenant'
+  $cfy_cfm_port = 80
+  $cfy_cfm_ssl = false
+  $cfy_cfm_cert_b64 = undef
+  $cfy_hostpool_username = 'root'
+  $cfy_hostpool_private_key_b64 = undef
 
   $user_name = 'be-user'
   $user_id = undef

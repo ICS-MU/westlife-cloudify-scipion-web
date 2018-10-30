@@ -30,22 +30,38 @@ SHELL=/bin/bash -o pipefail
 blueprints: cfy-$(BLUEPRINT) cfm-$(BLUEPRINT)
 
 cfy-$(BLUEPRINT): $(M4BLUEPRINT) cfy-$(INPUTS) bootstrap-m4
+ifeq ($(PROVISIONER), )
 	m4 $(M4BLUEPRINT) >".$@"
+else
+	m4 -D_PROVISIONER_=$(PROVISIONER) $(M4BLUEPRINT) >".$@"
+endif
 	mv ".$@" $@
 
 cfm-$(BLUEPRINT): $(M4BLUEPRINT) cfy-$(INPUTS) bootstrap-m4
+ifeq ($(PROVISIONER), )
 	m4 -D_CFM_ $(M4BLUEPRINT) >".$@"
+else
+	m4 -D_CFM_ -D_PROVISIONER_=$(PROVISIONER) $(M4BLUEPRINT) >".$@"
+endif
 	mv ".$@" $@
 
 # inputs
 inputs: cfy-$(INPUTS) cfm-$(INPUTS)
 
 cfy-$(INPUTS): $(M4INPUTS) resources/ssh_cfy/id_rsa bootstrap-m4
+ifeq ($(PROVISIONER), )
 	m4 $(M4INPUTS) >".$@"
+else
+	m4 -D_PROVISIONER_=$(PROVISIONER) $(M4INPUTS) >".$@"
+endif
 	mv ".$@" $@
 
 cfm-$(INPUTS): $(M4INPUTS) resources/ssh_cfy/id_rsa bootstrap-m4
+ifeq ($(PROVISIONER), )
 	m4 -D_CFM_ -D_CFM_BLUEPRINT_=$(CFM_BLUEPRINT) $(M4INPUTS) >".$@"
+else
+	m4 -D_CFM_ -D_CFM_BLUEPRINT_=$(CFM_BLUEPRINT) -D_PROVISIONER_=$(PROVISIONER) $(M4INPUTS) >".$@"
+endif
 	mv ".$@" $@
 
 validate: cfy-$(BLUEPRINT) cfm-$(BLUEPRINT)

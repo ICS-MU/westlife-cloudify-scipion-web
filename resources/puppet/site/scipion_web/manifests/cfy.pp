@@ -44,34 +44,59 @@ class scipion_web::cfy {
       }
     }
 
-    $scipion_web::cfy_jinja_scripts.each |String $src, String $dst| {
-      $_cfy_scripts_dst = "${_cfy_scripts_dir}/${dst}"
-
-      $_cmd = @("EOT")
-        set -e
-
-        sed \
-            -e 's,{{\s*template_dir\s*}},${_cfy_template_dir},gi' \
-            -e 's,{{\s*deployments_dir\s*}},${_cfy_deployments_dir},gi' \
-            -e 's,{{\s*log_dir\s*}},${_cfy_log_dir },gi' \
-            -e 's,{{\s*scripts_dir\s*}},${_cfy_scripts_dir },gi' \
-            -e 's,{{\s*be_user\s*}},${scipion_web::user::user_name},gi' \
-            -e 's,{{\s*be_group\s*}},${scipion_web::user::group_name},gi' \
-            ${scipion_web::code_dir}/cfy-wrapper/${src} >${_cfy_scripts_dst}.tmp
-
-        chmod +x ${_cfy_scripts_dst}.tmp
-        mv -f ${_cfy_scripts_dst}.tmp ${_cfy_scripts_dst}
-      | EOT
-
-      exec { "jinja-process-${src}":
-        command  => $_cmd,
-        path     => '/bin:/usr/bin:/sbin:/usr/sbin',
-        creates  => $_cfy_scripts_dst,
-        user     => $scipion_web::user::user_name,
-        group    => $scipion_web::user::group_name,
-        provider => shell,
-      }
+    $_epp_vars = {
+      'cfy_template_dir'             => $_cfy_template_dir,
+      'cfy_deployments_dir'          => $_cfy_deployments_dir,
+      'cfy_log_dir'                  => $_cfy_log_dir,
+      'cfy_scripts_dir'              => $_cfy_scripts_dir,
+      'user_name'                    => $scipion_web::user::user_name,
+      'group_name'                   => $scipion_web::user::group_name,
+      'cfy_standalone'               => $scipion_web::cfy_standalone,
+      'cfy_provisioner'              => $scipion_web::cfy_provisioner,
+      'cfm_server'                   => $scipion_web::cfy_cfm_server,
+      'cfm_user'                     => $scipion_web::cfy_cfm_user,
+      'cfm_password'                 => $scipion_web::cfy_cfm_password,
+      'cfm_tenant'                   => $scipion_web::cfy_cfm_tenant,
+      'cfm_port'                     => $scipion_web::cfy_cfm_port,
+      'cfm_ssl'                      => $scipion_web::cfy_cfm_ssl,
+      'cfm_cert_b64'                 => $scipion_web::cfy_cfm_cert_b64,
+      'cfy_hostpool_username'        => $scipion_web::cfy_hostpool_username,
+      'cfy_hostpool_private_key_b64' => $scipion_web::cfy_hostpool_private_key_b64,
     }
+
+    file { "${_cfy_scripts_dir}/config":
+      ensure  => $_ensure_file,
+      content => epp('scipion_web/backend_config.epp', $_epp_vars),
+    }
+
+#    $scipion_web::cfy_jinja_scripts.each |String $src, String $dst| {
+#      $_cfy_scripts_dst = "${_cfy_scripts_dir}/${dst}"
+#
+#      $_cmd = @("EOT")
+#        set -e
+#
+#        sed \
+#            -e 's,{{\s*template_dir\s*}},${_cfy_template_dir},gi' \
+#            -e 's,{{\s*deployments_dir\s*}},${_cfy_deployments_dir},gi' \
+#            -e 's,{{\s*log_dir\s*}},${_cfy_log_dir },gi' \
+#            -e 's,{{\s*scripts_dir\s*}},${_cfy_scripts_dir },gi' \
+#            -e 's,{{\s*be_user\s*}},${scipion_web::user::user_name},gi' \
+#            -e 's,{{\s*be_group\s*}},${scipion_web::user::group_name},gi' \
+#            ${scipion_web::code_dir}/cfy-wrapper/${src} >${_cfy_scripts_dst}.tmp
+#
+#        chmod +x ${_cfy_scripts_dst}.tmp
+#        mv -f ${_cfy_scripts_dst}.tmp ${_cfy_scripts_dst}
+#      | EOT
+#
+#      exec { "jinja-process-${src}":
+#        command  => $_cmd,
+#        path     => '/bin:/usr/bin:/sbin:/usr/sbin',
+#        creates  => $_cfy_scripts_dst,
+#        user     => $scipion_web::user::user_name,
+#        group    => $scipion_web::user::group_name,
+#        provider => shell,
+#      }
+#    }
 
     # initial database "bootstrap"
     file { "${scipion_web::cfy_wrapper_dir}/scipion-cloudify.db":

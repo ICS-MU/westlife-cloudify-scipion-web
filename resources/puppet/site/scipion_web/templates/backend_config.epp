@@ -1,0 +1,21 @@
+# This file is managed by Puppet
+
+TEMPLATEDIR='<%= $cfy_template_dir %>'
+DEPLOYMENTS_DIR='<%= $cfy_deployments_dir %>'
+LOG_DIR='<%= $cfy_log_dir %>'
+SCRIPTS_DIR='<%= $cfy_scripts_dir %>'
+USER_NAME='<%= $scipion_web::user::user_name %>'
+GROUP_NAME='<%= $scipion_web::user::group_name %>'
+
+# Cloudify Standalone / Master
+CFY_TYPE='<% if $cfy_standalone { %>cfy<% } else { %>cfm<% } %>'
+CFY_PROVISIONER='<%= $cfy_provisioner %>'
+CFM_SERVER='<%= $cfm_server %>'
+CFM_USER='<%= $cfm_user %>'
+CFM_PASSWORD='<%= $cfm_password %>'
+CFM_TENANT='<%= $cfm_tenant %>'
+CFM_PORT='<%= $cfm_port %>'
+CFM_SSL='<% if $cfm_ssl { %>true<% } else { %><% } %>'
+CFM_CERT_B64='<%= $cfm_cert_b64 %>'
+CFY_HOSTPOOL_USERNAME='<%= $cfy_hostpool_username %>'
+CFY_HOSTPOOL_PRIVATE_KEY_B64='<%= $cfy_hostpool_private_key_b64 %>'
